@@ -3,42 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Semester Party '25</title>
+    <title>Wine'n'Dine'n'Party 2025</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;900&display=swap" rel="stylesheet">
     
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #0a0a0a; color: #e0e0e0; }
-        .neon-text { text-shadow: 0 0 15px rgba(168, 85, 247, 0.5); }
+        .neon-text { text-shadow: 0 0 20px rgba(168, 85, 247, 0.6); }
         .glass-card { 
-            background: rgba(30, 30, 30, 0.6); 
-            backdrop-filter: blur(10px); 
-            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(20, 20, 20, 0.7); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .spotify-card {
+            background: linear-gradient(145deg, rgba(30, 215, 96, 0.1), rgba(0,0,0,0.8));
+            border: 1px solid rgba(30, 215, 96, 0.3);
         }
         input, select { color: white !important; }
         /* Animationen */
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
-        .float-anim { animation: float 6s ease-in-out infinite; }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0px); } }
+        .float-anim { animation: float 5s ease-in-out infinite; }
+        .custom-scroll::-webkit-scrollbar { width: 6px; }
+        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
     </style>
 </head>
-<body class="bg-[url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-fixed bg-center">
+<body class="bg-[url('https://images.unsplash.com/photo-1516997121675-4c2d1684aa3e?q=80&w=2072&auto=format&fit=crop')] bg-cover bg-fixed bg-center">
     
-    <div class="fixed inset-0 bg-black/80 z-0"></div>
+    <div class="fixed inset-0 bg-gradient-to-b from-black/70 via-black/80 to-black/90 z-0"></div>
 
     <div id="app" class="relative z-10 min-h-screen flex flex-col items-center p-4 pb-20">
 
-        <header class="text-center mt-12 mb-10 float-anim">
-            <div class="inline-block px-3 py-1 border border-purple-500/50 rounded-full text-xs text-purple-300 uppercase tracking-widest mb-4 bg-purple-900/20">
-                Save the Date
+        <header class="text-center mt-12 mb-10 w-full max-w-2xl">
+            <div class="inline-block px-4 py-1.5 border border-purple-500/50 rounded-full text-xs font-bold text-purple-300 uppercase tracking-widest mb-6 bg-purple-900/20 backdrop-blur-md">
+                06.12.2025
             </div>
-            <h1 class="text-5xl md:text-7xl font-black text-white mb-2 tracking-tight neon-text">
-                SEMESTER<br>CLOSING
+            <h1 class="text-5xl md:text-7xl font-black text-white mb-4 tracking-tighter neon-text leading-tight">
+                WINE'N'DINE<br>'N'PARTY
             </h1>
-            <p class="text-xl text-gray-300 font-light">Der Jahrgang '25 feiert.</p>
+            
+            <a href="https://share.google/VoUdkg1Q3DaoRxw2z" target="_blank" class="float-anim inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-5 py-3 rounded-2xl backdrop-blur-md border border-white/10 transition group mt-2">
+                <span class="text-2xl">📍</span>
+                <div class="text-left">
+                    <div class="text-xs text-gray-400 font-bold uppercase">Location</div>
+                    <div class="font-bold group-hover:text-purple-300 transition">Hier klicken für Maps</div>
+                </div>
+                <span class="text-gray-400 group-hover:translate-x-1 transition ml-2">➜</span>
+            </a>
         </header>
 
         <div class="w-full max-w-2xl space-y-8">
@@ -46,82 +61,117 @@
             <section class="glass-card rounded-3xl p-6 md:p-8 shadow-2xl">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold text-white">Anmeldung</h2>
-                    <span class="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded border border-green-500/30 animate-pulse">Live</span>
+                    <span class="text-xs font-mono bg-green-500/20 text-green-400 px-2 py-1 rounded border border-green-500/30 animate-pulse">RSVP OPEN</span>
                 </div>
                 
                 <form @submit.prevent="submitRSVP" class="space-y-5">
                     <div>
-                        <label class="block text-xs text-gray-400 uppercase tracking-wider mb-2 font-bold">Dein Name</label>
-                        <input v-model="newGuest.name" required type="text" placeholder="Name eingeben..." class="w-full bg-black/40 border border-gray-600 rounded-xl p-4 focus:border-purple-500 focus:outline-none transition placeholder-gray-600">
+                        <input v-model="newGuest.name" required type="text" placeholder="Dein Name..." class="w-full bg-black/40 border border-gray-600 rounded-xl p-4 focus:border-purple-500 focus:outline-none transition placeholder-gray-500 font-medium">
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
-                        <label class="cursor-pointer border border-gray-600 rounded-xl p-4 hover:bg-white/5 transition" :class="{'border-purple-500 bg-purple-500/10': newGuest.status === 'going'}">
+                        <label class="cursor-pointer border border-gray-600 rounded-xl p-4 hover:bg-white/5 transition relative overflow-hidden" :class="{'border-purple-500 bg-purple-500/20': newGuest.status === 'going'}">
                             <input type="radio" value="going" v-model="newGuest.status" class="hidden">
-                            <div class="text-2xl mb-1">🍻</div>
-                            <div class="font-bold text-sm">Bin dabei</div>
+                            <div class="relative z-10 text-center">
+                                <div class="text-2xl mb-1">🍷</div>
+                                <div class="font-bold text-sm">Dabei!</div>
+                            </div>
                         </label>
-                        <label class="cursor-pointer border border-gray-600 rounded-xl p-4 hover:bg-white/5 transition" :class="{'border-yellow-500 bg-yellow-500/10': newGuest.status === 'maybe'}">
+                        <label class="cursor-pointer border border-gray-600 rounded-xl p-4 hover:bg-white/5 transition relative" :class="{'border-gray-400 bg-gray-500/20': newGuest.status === 'maybe'}">
                             <input type="radio" value="maybe" v-model="newGuest.status" class="hidden">
-                            <div class="text-2xl mb-1">🤔</div>
-                            <div class="font-bold text-sm">Vielleicht</div>
+                            <div class="text-center">
+                                <div class="text-2xl mb-1">📅</div>
+                                <div class="font-bold text-sm">Mal schauen</div>
+                            </div>
                         </label>
                     </div>
 
-                    <div>
-                        <label class="block text-xs text-gray-400 uppercase tracking-wider mb-2 font-bold">Begleitung</label>
-                        <select v-model="newGuest.plusOne" class="w-full bg-black/40 border border-gray-600 rounded-xl p-4 focus:border-purple-500 outline-none">
+                    <div class="flex items-center gap-4 bg-black/30 p-3 rounded-xl border border-gray-700">
+                        <span class="text-sm font-bold text-gray-400 pl-2">Begleitung:</span>
+                        <select v-model="newGuest.plusOne" class="flex-1 bg-transparent border-none focus:ring-0 font-bold text-right cursor-pointer">
                             <option :value="0" class="text-black">Nur ich</option>
                             <option :value="1" class="text-black">+1 Person</option>
                             <option :value="2" class="text-black">+2 Personen</option>
                         </select>
                     </div>
 
-                    <button type="submit" :disabled="loading" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-4 rounded-xl transition transform active:scale-[0.98] shadow-lg shadow-purple-900/50">
-                        {{ loading ? 'Sende...' : 'Auf die Liste schreiben 🚀' }}
+                    <button type="submit" :disabled="loading" class="w-full bg-gradient-to-r from-purple-700 to-indigo-600 hover:from-purple-600 hover:to-indigo-500 text-white font-bold py-4 rounded-xl transition transform active:scale-[0.98] shadow-lg shadow-purple-900/30">
+                        {{ loading ? 'Moment...' : 'Absenden 🥂' }}
                     </button>
                 </form>
 
                 <div class="mt-8 pt-6 border-t border-gray-700/50">
                     <div class="flex justify-between items-baseline mb-4">
-                        <h3 class="text-gray-300 font-medium">Wer kommt schon?</h3>
-                        <span class="text-2xl font-bold text-white">{{ totalGuests }}</span>
+                        <h3 class="text-gray-300 font-medium text-sm uppercase tracking-wide">Gästeliste</h3>
+                        <span class="text-xl font-bold text-white">{{ totalGuests }}</span>
                     </div>
                     
-                    <div class="flex flex-wrap gap-2 max-h-40 overflow-y-auto custom-scroll">
+                    <div class="flex flex-wrap gap-2 max-h-48 overflow-y-auto custom-scroll">
                         <span v-for="guest in guests" :key="guest.id" 
-                              class="px-3 py-1 rounded-full text-sm border flex items-center gap-1"
-                              :class="guest.status === 'going' ? 'bg-green-900/30 border-green-800 text-green-200' : 'bg-yellow-900/30 border-yellow-800 text-yellow-200'">
+                              class="px-3 py-1.5 rounded-lg text-sm border flex items-center gap-2 transition hover:scale-105 select-none"
+                              :class="guest.status === 'going' ? 'bg-purple-500/20 border-purple-500/40 text-purple-200' : 'bg-gray-700/40 border-gray-600 text-gray-400'">
                             {{ guest.name }}
-                            <span v-if="guest.plusOne > 0" class="bg-black/30 px-1.5 rounded text-xs font-bold ml-1">+{{guest.plusOne}}</span>
+                            <span v-if="guest.plusOne > 0" class="bg-black/40 px-1.5 rounded text-xs font-bold">+{{guest.plusOne}}</span>
                         </span>
-                        <span v-if="guests.length === 0" class="text-gray-500 text-sm w-full text-center py-2">Noch niemand... Sei der Erste!</span>
+                        <span v-if="guests.length === 0" class="text-gray-500 text-sm w-full text-center py-4">Liste ist noch leer...</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="spotify-card rounded-3xl p-6 md:p-8 shadow-[0_0_30px_rgba(30,215,96,0.15)] relative overflow-hidden group">
+                <div class="absolute -right-10 -top-10 w-40 h-40 bg-green-500 blur-[80px] opacity-20 group-hover:opacity-30 transition duration-700"></div>
+
+                <div class="relative z-10">
+                    <h2 class="text-2xl font-bold text-white mb-1 flex items-center gap-3">
+                        <svg class="w-8 h-8 text-green-500" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+                        Party Playlist
+                    </h2>
+                    <p class="text-green-200/80 text-sm mb-5 font-medium">Füg deine Tracks zur Warteschlange hinzu!</p>
+                    
+                    <form @submit.prevent="submitSong" class="flex gap-3 mb-6">
+                        <input v-model="newSong" required type="text" placeholder="Songlink oder Titel..." class="flex-1 bg-black/40 border border-green-500/30 rounded-xl p-4 focus:border-green-400 outline-none text-white placeholder-green-100/30">
+                        <button type="submit" class="bg-green-500 hover:bg-green-400 text-black px-5 rounded-xl font-bold transition flex items-center justify-center">
+                            +
+                        </button>
+                    </form>
+
+                    <div class="space-y-2 max-h-60 overflow-y-auto custom-scroll pr-2">
+                        <div v-for="song in songs" :key="song.id" class="group/item flex items-center justify-between bg-black/30 hover:bg-black/50 p-3 rounded-lg border border-transparent hover:border-green-500/20 transition">
+                            <div class="flex items-center gap-3 overflow-hidden">
+                                <div class="w-8 h-8 rounded bg-green-900/30 flex items-center justify-center text-green-500 text-xs font-bold">♫</div>
+                                <span class="text-sm text-gray-200 truncate">{{ song.text }}</span>
+                            </div>
+                            <span class="text-[10px] text-gray-600 uppercase tracking-wider">{{ new Date(song.createdAt?.seconds * 1000 || Date.now()).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</span>
+                        </div>
+                        <div v-if="songs.length === 0" class="text-center py-4 text-gray-500 text-xs italic">
+                            Noch keine Songs... Trau dich!
+                        </div>
                     </div>
                 </div>
             </section>
 
             <section class="glass-card rounded-3xl p-6 md:p-8 shadow-xl">
-                <h2 class="text-xl font-bold text-white mb-1">🗣️ Wall of Ideas</h2>
-                <p class="text-sm text-gray-400 mb-4">Songwünsche, Mitbringsel oder wilde Ideen.</p>
+                <h2 class="text-xl font-bold text-white mb-1">💡 Sonstige Ideen</h2>
+                <p class="text-sm text-gray-400 mb-4">Mitbringsel, Spiele, Snacks.</p>
                 
                 <form @submit.prevent="submitIdea" class="flex gap-2 mb-6">
-                    <input v-model="newIdeaText" required type="text" placeholder="Schreib was..." class="flex-1 bg-black/40 border border-gray-600 rounded-xl p-3 focus:border-blue-500 outline-none text-white placeholder-gray-600">
-                    <button type="submit" class="bg-blue-600 hover:bg-blue-500 px-5 rounded-xl font-bold transition">
+                    <input v-model="newIdeaText" required type="text" placeholder="z.B. Beerpong Bälle..." class="flex-1 bg-black/40 border border-gray-600 rounded-xl p-3 focus:border-purple-500 outline-none text-white placeholder-gray-600">
+                    <button type="submit" class="bg-gray-700 hover:bg-gray-600 px-5 rounded-xl font-bold transition text-gray-200">
                         ➜
                     </button>
                 </form>
 
-                <ul class="space-y-3">
-                    <li v-for="idea in ideas" :key="idea.id" class="bg-white/5 p-3 rounded-xl border border-white/5 flex justify-between items-start">
-                        <span class="text-gray-200">{{ idea.text }}</span>
+                <ul class="space-y-2">
+                    <li v-for="idea in ideas" :key="idea.id" class="bg-white/5 px-4 py-3 rounded-xl border border-white/5 text-gray-300 text-sm">
+                        {{ idea.text }}
                     </li>
                 </ul>
             </section>
 
         </div>
         
-        <footer class="mt-20 text-gray-500 text-xs">
-            Powered by Vercel & Firebase
+        <footer class="mt-24 text-gray-600 text-xs font-mono">
+            HOSTED VIA VERCEL
         </footer>
     </div>
 
@@ -130,7 +180,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // DEINE KONFIGURATION
         const firebaseConfig = {
           apiKey: "AIzaSyD18cfrkWooD8gOCJ3Y9jo11On8C5aMgm8",
           authDomain: "aiml-0612.firebaseapp.com",
@@ -150,19 +199,22 @@
                 const guests = ref([]);
                 const newGuest = ref({ name: '', status: 'going', plusOne: 0 });
                 const ideas = ref([]);
+                const songs = ref([]);
                 const newIdeaText = ref('');
+                const newSong = ref('');
 
                 onMounted(() => {
-                    // Load Guests
-                    const qGuests = query(collection(db, "guests"), orderBy("createdAt", "desc"));
-                    onSnapshot(qGuests, (snapshot) => {
-                        guests.value = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    // Guests
+                    onSnapshot(query(collection(db, "guests"), orderBy("createdAt", "desc")), (snap) => {
+                        guests.value = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                     });
-
-                    // Load Ideas
-                    const qIdeas = query(collection(db, "ideas"), orderBy("createdAt", "desc"));
-                    onSnapshot(qIdeas, (snapshot) => {
-                        ideas.value = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    // Ideas
+                    onSnapshot(query(collection(db, "ideas"), orderBy("createdAt", "desc")), (snap) => {
+                        ideas.value = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    });
+                    // Songs (NEW)
+                    onSnapshot(query(collection(db, "songs"), orderBy("createdAt", "desc")), (snap) => {
+                        songs.value = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                     });
                 });
 
@@ -176,32 +228,26 @@
                     if(!newGuest.value.name) return;
                     loading.value = true;
                     try {
-                        await addDoc(collection(db, "guests"), {
-                            ...newGuest.value,
-                            createdAt: serverTimestamp()
-                        });
+                        await addDoc(collection(db, "guests"), { ...newGuest.value, createdAt: serverTimestamp() });
                         newGuest.value = { name: '', status: 'going', plusOne: 0 };
-                    } catch (e) {
-                        console.error(e);
-                        alert("Fehler: Datenbank-Berechtigungen prüfen!");
-                    }
+                    } catch (e) { alert("Fehler beim Speichern!"); }
                     loading.value = false;
                 };
 
                 const submitIdea = async () => {
                     if(!newIdeaText.value) return;
-                    try {
-                        await addDoc(collection(db, "ideas"), {
-                            text: newIdeaText.value,
-                            createdAt: serverTimestamp()
-                        });
-                        newIdeaText.value = '';
-                    } catch (e) {
-                        console.error(e);
-                    }
+                    await addDoc(collection(db, "ideas"), { text: newIdeaText.value, createdAt: serverTimestamp() });
+                    newIdeaText.value = '';
                 };
 
-                return { guests, newGuest, submitRSVP, loading, totalGuests, ideas, newIdeaText, submitIdea };
+                // New Function for Songs
+                const submitSong = async () => {
+                    if(!newSong.value) return;
+                    await addDoc(collection(db, "songs"), { text: newSong.value, createdAt: serverTimestamp() });
+                    newSong.value = '';
+                };
+
+                return { guests, newGuest, submitRSVP, loading, totalGuests, ideas, newIdeaText, submitIdea, songs, newSong, submitSong };
             }
         }).mount('#app');
     </script>
