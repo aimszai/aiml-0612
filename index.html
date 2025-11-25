@@ -20,8 +20,9 @@
             border: 1px solid rgba(255,255,255,0.08);
         }
         .spotify-card {
-            background: linear-gradient(145deg, rgba(30, 215, 96, 0.1), rgba(0,0,0,0.8));
-            border: 1px solid rgba(30, 215, 96, 0.3);
+            background: linear-gradient(145deg, #101010, #000);
+            border: 1px solid #1DB954;
+            box-shadow: 0 0 20px rgba(29, 185, 84, 0.1);
         }
         input, select { color: white !important; }
         /* Animationen */
@@ -40,15 +41,7 @@
 
     <div id="app" class="relative z-10 min-h-screen flex flex-col items-center p-4 pb-20">
 
-        <div class="absolute top-6 right-6 z-50">
-            <button @click="toggleLang" class="glass-card px-5 py-3 rounded-2xl flex items-center gap-3 hover:bg-white/20 transition font-black tracking-widest border-2 border-white/10 shadow-lg cursor-pointer">
-                <span :class="{'text-purple-400 scale-110 drop-shadow-[0_0_8px_rgba(168,85,247,0.8)]': currentLang === 'de', 'text-gray-500': currentLang !== 'de'}" class="transition-all duration-300">DE</span>
-                <span class="text-gray-600 text-lg">/</span>
-                <span :class="{'text-purple-400 scale-110 drop-shadow-[0_0_8px_rgba(168,85,247,0.8)]': currentLang === 'en', 'text-gray-500': currentLang !== 'en'}" class="transition-all duration-300">EN</span>
-            </button>
-        </div>
-
-        <header class="text-center mt-16 mb-10 w-full max-w-2xl">
+        <header class="text-center mt-12 mb-10 w-full max-w-3xl">
             
             <div class="inline-block px-8 py-3 border-2 border-purple-500 rounded-full text-xl md:text-2xl font-black text-white uppercase tracking-[0.15em] mb-8 bg-purple-900/30 backdrop-blur-xl glow-box animate-pulse">
                 06.12.2025
@@ -58,24 +51,28 @@
                 WINE'N'DINE<br>'N'PARTY
             </h1>
             
-            <div class="flex flex-wrap justify-center gap-3 md:gap-4 float-anim">
-                <a href="https://share.google/VoUdkg1Q3DaoRxw2z" target="_blank" class="flex-1 min-w-[140px] flex items-center gap-3 bg-white/5 hover:bg-white/10 text-white px-4 py-3 rounded-2xl backdrop-blur-md border border-white/10 transition group">
-                    <span class="text-2xl bg-white/10 w-10 h-10 flex items-center justify-center rounded-full">📍</span>
-                    <div class="text-left">
-                        <div class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">{{ t.location }}</div>
-                        <div class="font-bold text-sm group-hover:text-purple-300 transition">Google Maps</div>
-                    </div>
+            <div class="flex flex-wrap items-stretch justify-center gap-3 float-anim">
+                
+                <a href="https://share.google/VoUdkg1Q3DaoRxw2z" target="_blank" class="flex-1 min-w-[120px] flex flex-col items-center justify-center bg-white/5 hover:bg-white/10 text-white px-4 py-3 rounded-2xl backdrop-blur-md border border-white/10 transition group">
+                    <span class="text-xl mb-1">📍</span>
+                    <div class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">{{ t.location }}</div>
+                    <div class="font-bold text-xs group-hover:text-purple-300 transition">Google Maps</div>
                 </a>
 
-                <a href="https://chat.whatsapp.com/J4f98ZakJqEEpmLmwJ3vM3?mode=hqrt1" target="_blank" class="flex-1 min-w-[140px] flex items-center gap-3 bg-[#25D366]/10 hover:bg-[#25D366]/20 text-white px-4 py-3 rounded-2xl backdrop-blur-md border border-[#25D366]/30 transition group">
-                    <div class="text-2xl bg-[#25D366]/20 w-10 h-10 flex items-center justify-center rounded-full text-[#25D366]">
-                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                <button @click="toggleLang" class="flex items-center justify-center gap-2 bg-black/40 hover:bg-black/60 px-5 rounded-2xl border border-white/10 backdrop-blur-md transition group min-w-[100px]">
+                    <span :class="{'text-white font-bold scale-110': currentLang === 'de', 'text-gray-600': currentLang !== 'de'}" class="transition">DE</span>
+                    <span class="text-gray-700">|</span>
+                    <span :class="{'text-white font-bold scale-110': currentLang === 'en', 'text-gray-600': currentLang !== 'en'}" class="transition">EN</span>
+                </button>
+
+                <a href="https://chat.whatsapp.com/J4f98ZakJqEEpmLmwJ3vM3?mode=hqrt1" target="_blank" class="flex-1 min-w-[120px] flex flex-col items-center justify-center bg-[#25D366]/10 hover:bg-[#25D366]/20 text-white px-4 py-3 rounded-2xl backdrop-blur-md border border-[#25D366]/30 transition group">
+                    <div class="text-xl mb-1 text-[#25D366]">
+                        <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
                     </div>
-                    <div class="text-left">
-                        <div class="text-[10px] text-[#25D366] font-bold uppercase tracking-wider">{{ t.chat }}</div>
-                        <div class="font-bold text-sm group-hover:text-[#25D366] transition">WhatsApp</div>
-                    </div>
+                    <div class="text-[10px] text-[#25D366] font-bold uppercase tracking-wider">{{ t.chat }}</div>
+                    <div class="font-bold text-xs group-hover:text-[#25D366] transition">WhatsApp</div>
                 </a>
+
             </div>
         </header>
 
@@ -141,33 +138,38 @@
                 </div>
             </section>
 
-            <section class="spotify-card rounded-3xl p-6 md:p-8 shadow-[0_0_30px_rgba(30,215,96,0.15)] relative overflow-hidden group">
-                <div class="absolute -right-10 -top-10 w-40 h-40 bg-green-500 blur-[80px] opacity-20 group-hover:opacity-30 transition duration-700"></div>
+            <section class="spotify-card rounded-3xl p-6 md:p-8 relative overflow-hidden group">
+                
+                <h2 class="text-2xl font-bold text-white mb-2 flex items-center gap-3">
+                    <svg class="w-8 h-8 text-[#1DB954]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+                    Party Playlist
+                </h2>
+                
+                <div class="mb-5 rounded-xl overflow-hidden shadow-lg bg-black/50">
+                    <iframe style="border-radius:12px" 
+                        :src="`https://open.spotify.com/embed/playlist/${spotifyPlaylistId}?utm_source=generator&theme=0`" 
+                        width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+                    </iframe>
+                </div>
 
-                <div class="relative z-10">
-                    <h2 class="text-2xl font-bold text-white mb-1 flex items-center gap-3">
-                        <svg class="w-8 h-8 text-green-500" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
-                        Party Playlist
-                    </h2>
-                    <p class="text-green-200/80 text-sm mb-5 font-medium">{{ t.spotifySub }}</p>
+                <a :href="`https://open.spotify.com/playlist/${spotifyPlaylistId}`" target="_blank" class="block text-center w-full bg-[#1DB954] hover:bg-[#15883e] text-black font-bold py-3 rounded-xl mb-6 transition">
+                    Open in Spotify App 🎵
+                </a>
+
+                <div class="border-t border-gray-700 pt-5">
+                    <p class="text-green-200/80 text-sm mb-3 font-medium">{{ t.spotifySub }}</p>
                     
-                    <form @submit.prevent="submitSong" class="flex gap-3 mb-6">
-                        <input v-model="newSong" required type="text" :placeholder="t.songPlaceholder" class="flex-1 bg-black/40 border border-green-500/30 rounded-xl p-4 focus:border-green-400 outline-none text-white placeholder-green-100/30">
-                        <button type="submit" class="bg-green-500 hover:bg-green-400 text-black px-5 rounded-xl font-bold transition flex items-center justify-center">
+                    <form @submit.prevent="submitSong" class="flex gap-3 mb-4">
+                        <input v-model="newSong" required type="text" :placeholder="t.songPlaceholder" class="flex-1 bg-black/40 border border-green-500/30 rounded-xl p-3 focus:border-green-400 outline-none text-white placeholder-green-100/30 text-sm">
+                        <button type="submit" class="bg-white/10 hover:bg-white/20 text-green-400 px-4 rounded-xl font-bold transition flex items-center justify-center">
                             +
                         </button>
                     </form>
 
-                    <div class="space-y-2 max-h-60 overflow-y-auto custom-scroll pr-2">
-                        <div v-for="song in songs" :key="song.id" class="group/item flex items-center justify-between bg-black/30 hover:bg-black/50 p-3 rounded-lg border border-transparent hover:border-green-500/20 transition">
-                            <div class="flex items-center gap-3 overflow-hidden">
-                                <div class="w-8 h-8 rounded bg-green-900/30 flex items-center justify-center text-green-500 text-xs font-bold">♫</div>
-                                <span class="text-sm text-gray-200 truncate">{{ song.text }}</span>
-                            </div>
-                            <span class="text-[10px] text-gray-600 uppercase tracking-wider">{{ new Date(song.createdAt?.seconds * 1000 || Date.now()).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}</span>
-                        </div>
-                        <div v-if="songs.length === 0" class="text-center py-4 text-gray-500 text-xs italic">
-                            {{ t.emptySongs }}
+                    <div class="space-y-1 max-h-40 overflow-y-auto custom-scroll pr-2">
+                        <div v-for="song in songs" :key="song.id" class="text-xs flex justify-between text-gray-400 border-b border-gray-800 py-2">
+                            <span>{{ song.text }}</span>
+                            <span class="opacity-50 text-[10px]">Wishlist</span>
                         </div>
                     </div>
                 </div>
@@ -191,12 +193,8 @@
 
                 <ul class="space-y-2">
                     <li v-for="idea in ideas" :key="idea.id" class="bg-white/5 px-4 py-3 rounded-xl border border-white/5 text-gray-300 text-sm flex justify-between gap-4">
-                        <span>
-                            {{ (currentLang === 'en' && translations[idea.id]) ? translations[idea.id] : idea.text }}
-                        </span>
-                        <span v-if="currentLang === 'en' && translations[idea.id]" class="text-[10px] text-blue-400/70 border border-blue-400/20 px-1 rounded self-start h-min whitespace-nowrap">
-                            Translated
-                        </span>
+                        <span>{{ (currentLang === 'en' && translations[idea.id]) ? translations[idea.id] : idea.text }}</span>
+                        <span v-if="currentLang === 'en' && translations[idea.id]" class="text-[10px] text-blue-400/70 border border-blue-400/20 px-1 rounded self-start h-min whitespace-nowrap">Translated</span>
                     </li>
                 </ul>
             </section>
@@ -226,7 +224,9 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // TRANSLATION DICTIONARY
+        // PLAYLIST ID UPDATED
+        const spotifyPlaylistId = "0lKuyr6Wf0lA13QzJzXj4s"; 
+
         const messages = {
             de: {
                 location: "Ort",
@@ -244,9 +244,9 @@
                 sending: "Moment...",
                 guestList: "Gästeliste",
                 emptyList: "Liste ist noch leer...",
-                spotifySub: "Füg deine Tracks zur Warteschlange hinzu!",
-                songPlaceholder: "Songlink oder Titel...",
-                emptySongs: "Noch keine Songs... Trau dich!",
+                spotifySub: "Kein Spotify? Wünsch dir hier was:",
+                songPlaceholder: "Song Titel...",
+                emptySongs: "Warteschlange leer",
                 ideasTitle: "💡 Sonstige Ideen",
                 ideasSub: "Mitbringsel, Spiele, Snacks.",
                 ideaPlaceholder: "z.B. Beerpong Bälle..."
@@ -267,9 +267,9 @@
                 sending: "Sending...",
                 guestList: "Guest List",
                 emptyList: "List is empty...",
-                spotifySub: "Add your tracks to the queue!",
-                songPlaceholder: "Song link or title...",
-                emptySongs: "No songs yet... Be the first!",
+                spotifySub: "No Spotify? Request here:",
+                songPlaceholder: "Song title...",
+                emptySongs: "Queue empty",
                 ideasTitle: "💡 Other Ideas",
                 ideasSub: "Potluck items, games, snacks.",
                 ideaPlaceholder: "e.g. Beerpong balls..."
@@ -278,46 +278,36 @@
 
         createApp({
             setup() {
-                const currentLang = ref('de'); // Default Language
+                const currentLang = ref('de'); 
                 const loading = ref(false);
                 const guests = ref([]);
                 const newGuest = ref({ name: '', status: 'going', plusOne: 0 });
                 const ideas = ref([]);
-                const translations = ref({}); // Cache for translated ideas
+                const translations = ref({}); 
                 const songs = ref([]);
                 const newIdeaText = ref('');
                 const newSong = ref('');
 
-                // Toggle Language
                 const toggleLang = () => {
                     currentLang.value = currentLang.value === 'de' ? 'en' : 'de';
                 };
 
-                // Computed Dictionary
                 const t = computed(() => messages[currentLang.value]);
 
-                // Auto-Translate Helper (Free API)
                 const translateText = async (text, targetLang) => {
                     if (!text) return "";
-                    // Use MyMemory API (Free, limitation: 5000 chars/day roughly for anonymous usage)
                     try {
                         const langPair = targetLang === 'en' ? 'de|en' : 'en|de';
                         const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${langPair}`);
                         const data = await res.json();
                         return data.responseData.translatedText;
-                    } catch (e) {
-                        console.warn("Translation failed", e);
-                        return text; // Fallback to original
-                    }
+                    } catch (e) { return text; }
                 };
 
-                // Watch language and ideas to trigger translation
                 watch([currentLang, ideas], async () => {
                     if (currentLang.value === 'en') {
-                        // Translate all ideas that aren't cached yet
                         for (const idea of ideas.value) {
                             if (!translations.value[idea.id]) {
-                                // Small delay to avoid API spamming
                                 await new Promise(r => setTimeout(r, 100)); 
                                 const trans = await translateText(idea.text, 'en');
                                 translations.value[idea.id] = trans;
@@ -327,33 +317,18 @@
                 }, { deep: true });
 
                 onMounted(() => {
-                    // Guests
-                    onSnapshot(query(collection(db, "guests"), orderBy("createdAt", "desc")), (snap) => {
-                        guests.value = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    });
-                    // Ideas
-                    onSnapshot(query(collection(db, "ideas"), orderBy("createdAt", "desc")), (snap) => {
-                        ideas.value = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    });
-                    // Songs
-                    onSnapshot(query(collection(db, "songs"), orderBy("createdAt", "desc")), (snap) => {
-                        songs.value = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    });
+                    onSnapshot(query(collection(db, "guests"), orderBy("createdAt", "desc")), (snap) => guests.value = snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+                    onSnapshot(query(collection(db, "ideas"), orderBy("createdAt", "desc")), (snap) => ideas.value = snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+                    onSnapshot(query(collection(db, "songs"), orderBy("createdAt", "desc")), (snap) => songs.value = snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
                 });
 
-                const totalGuests = computed(() => {
-                    return guests.value.reduce((acc, curr) => {
-                        return acc + 1 + (curr.status === 'going' ? parseInt(curr.plusOne) : 0);
-                    }, 0);
-                });
-
+                const totalGuests = computed(() => guests.value.reduce((acc, curr) => acc + 1 + (curr.status === 'going' ? parseInt(curr.plusOne) : 0), 0));
+                
                 const submitRSVP = async () => {
                     if(!newGuest.value.name) return;
                     loading.value = true;
-                    try {
-                        await addDoc(collection(db, "guests"), { ...newGuest.value, createdAt: serverTimestamp() });
-                        newGuest.value = { name: '', status: 'going', plusOne: 0 };
-                    } catch (e) { alert("Error saving!"); }
+                    await addDoc(collection(db, "guests"), { ...newGuest.value, createdAt: serverTimestamp() });
+                    newGuest.value = { name: '', status: 'going', plusOne: 0 };
                     loading.value = false;
                 };
 
@@ -373,7 +348,7 @@
                     guests, newGuest, submitRSVP, loading, totalGuests, 
                     ideas, newIdeaText, submitIdea, 
                     songs, newSong, submitSong,
-                    currentLang, toggleLang, t, translations
+                    currentLang, toggleLang, t, translations, spotifyPlaylistId
                 };
             }
         }).mount('#app');
