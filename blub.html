@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Party Admin Dashboard</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #050505; color: #e0e0e0; }
+        .glass-card { background: rgba(30, 30, 30, 0.6); border: 1px solid rgba(255,255,255,0.1); }
+    </style>
+</head>
+<body class="min-h-screen p-6">
+
+    <div id="app" class="max-w-4xl mx-auto">
+
+        <div v-if="!isLoggedIn" class="flex flex-col items-center justify-center h-[80vh]">
+            <div class="glass-card p-8 rounded-2xl text-center w-full max-w-sm">
+                <h1 class="text-2xl font-bold mb-4 text-white">🔒 Admin Login</h1>
+                <form @submit.prevent="checkLogin" class="space-y-4">
+                    <input v-model="inputPassword" type="password" placeholder="Passwort..." class="w-full bg-black/50 border border-gray-700 rounded p-3 text-white focus:border-purple-500 outline-none">
+                    <button type="submit" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded transition">
+                        Einloggen
+                    </button>
+                    <p v-if="error" class="text-red-500 text-sm">Falsches Passwort!</p>
+                </form>
+            </div>
+        </div>
+
+        <div v-else>
+            <header class="flex justify-between items-center mb-8 pb-4 border-b border-gray-800">
+                <h1 class="text-3xl font-bold text-white">Admin Dashboard 🛠️</h1>
+                <button @click="logout" class="text-sm text-gray-500 hover:text-white">Logout</button>
+            </header>
+
+            <div class="grid gap-12">
+
+                <section>
+                    <h2 class="text-xl font-bold text-purple-400 mb-4 flex justify-between">
+                        Gästeliste ({{ guests.length }})
+                        <span class="text-xs text-gray-500 font-normal self-center">Klicken zum Löschen</span>
+                    </h2>
+                    <div class="bg-[#111] rounded-xl overflow-hidden border border-gray-800">
+                        <table class="w-full text-left text-sm text-gray-400">
+                            <thead class="bg-gray-900 text-gray-200 uppercase font-bold text-xs">
+                                <tr>
+                                    <th class="p-4">Name</th>
+                                    <th class="p-4">Status</th>
+                                    <th class="p-4">Begleitung</th>
+                                    <th class="p-4 text-right">Aktion</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-800">
+                                <tr v-for="guest in guests" :key="guest.id" class="hover:bg-gray-800/50 transition">
+                                    <td class="p-4 font-bold text-white">{{ guest.name }}</td>
+                                    <td class="p-4">
+                                        <span v-if="guest.status === 'going'" class="text-green-400">Dabei</span>
+                                        <span v-else class="text-yellow-400">Vielleicht</span>
+                                    </td>
+                                    <td class="p-4">+{{ guest.plusOne }}</td>
+                                    <td class="p-4 text-right">
+                                        <button @click="deleteItem('guests', guest.id)" class="text-red-500 hover:text-red-300 hover:bg-red-900/30 p-2 rounded transition" title="Löschen">
+                                            🗑️
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div v-if="guests.length === 0" class="p-8 text-center text-gray-600">Keine Gäste.</div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2 class="text-xl font-bold text-green-400 mb-4">Songwünsche ({{ songs.length }})</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div v-for="song in songs" :key="song.id" class="bg-[#111] border border-gray-800 p-3 rounded-lg flex justify-between items-center group">
+                            <span class="text-gray-300">{{ song.text }}</span>
+                            <button @click="deleteItem('songs', song.id)" class="opacity-0 group-hover:opacity-100 text-red-500 hover:bg-red-900/20 p-2 rounded transition">
+                                🗑️
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2 class="text-xl font-bold text-blue-400 mb-4">Ideen ({{ ideas.length }})</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div v-for="idea in ideas" :key="idea.id" class="bg-[#111] border border-gray-800 p-3 rounded-lg flex justify-between items-center group">
+                            <div>
+                                <span class="text-gray-300 block">{{ idea.text }}</span>
+                                <span class="text-xs text-gray-600">Likes: {{ idea.likes || 0 }}</span>
+                            </div>
+                            <button @click="deleteItem('ideas', idea.id)" class="opacity-0 group-hover:opacity-100 text-red-500 hover:bg-red-900/20 p-2 rounded transition">
+                                🗑️
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module">
+        import { createApp, ref, onMounted } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        // Hier importieren wir deleteDoc
+        import { getFirestore, collection, onSnapshot, query, orderBy, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // DEINE CONFIG
+        const firebaseConfig = {
+          apiKey: "AIzaSyD18cfrkWooD8gOCJ3Y9jo11On8C5aMgm8",
+          authDomain: "aiml-0612.firebaseapp.com",
+          projectId: "aiml-0612",
+          storageBucket: "aiml-0612.firebasestorage.app",
+          messagingSenderId: "307354744386",
+          appId: "1:307354744386:web:6ab1e4e1ba810a6c0d1fdb",
+          measurementId: "G-DSS8YQ3KC4"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        createApp({
+            setup() {
+                // --- PASSWORT HIER ÄNDERN ---
+                const adminPassword = "blubblub"; 
+                // ----------------------------
+
+                const isLoggedIn = ref(false);
+                const inputPassword = ref('');
+                const error = ref(false);
+
+                const guests = ref([]);
+                const ideas = ref([]);
+                const songs = ref([]);
+
+                // Login Logic
+                const checkLogin = () => {
+                    if(inputPassword.value === adminPassword) {
+                        isLoggedIn.value = true;
+                        loadData(); // Daten erst laden wenn eingeloggt
+                    } else {
+                        error.value = true;
+                    }
+                };
+
+                const logout = () => {
+                    isLoggedIn.value = false;
+                    inputPassword.value = '';
+                };
+
+                // Daten laden
+                const loadData = () => {
+                    onSnapshot(query(collection(db, "guests"), orderBy("createdAt", "desc")), (snap) => guests.value = snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+                    onSnapshot(query(collection(db, "ideas"), orderBy("createdAt", "desc")), (snap) => ideas.value = snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+                    onSnapshot(query(collection(db, "songs"), orderBy("createdAt", "desc")), (snap) => songs.value = snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+                };
+
+                // LÖSCH FUNKTION
+                const deleteItem = async (collectionName, id) => {
+                    if(!confirm("Wirklich löschen? Das kann nicht rückgängig gemacht werden.")) return;
+                    
+                    try {
+                        await deleteDoc(doc(db, collectionName, id));
+                    } catch (e) {
+                        alert("Fehler beim Löschen: " + e.message);
+                        console.error(e);
+                    }
+                };
+
+                return { 
+                    isLoggedIn, inputPassword, checkLogin, error, logout,
+                    guests, ideas, songs, deleteItem
+                };
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
