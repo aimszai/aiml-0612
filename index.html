@@ -9,6 +9,8 @@
     
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;900&display=swap" rel="stylesheet">
     
     <style>
@@ -32,6 +34,9 @@
         .custom-scroll::-webkit-scrollbar-track { background: transparent; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
         .glow-box { box-shadow: 0 0 25px rgba(168, 85, 247, 0.3); }
+        
+        /* Like Button Animation */
+        .like-btn:active { transform: scale(0.9); }
     </style>
 </head>
 <body class="bg-[url('https://images.unsplash.com/photo-1516997121675-4c2d1684aa3e?q=80&w=2072&auto=format&fit=crop')] bg-cover bg-fixed bg-center">
@@ -161,10 +166,19 @@
                     <input v-model="newIdeaText" required type="text" :placeholder="t.ideaPlaceholder" class="flex-1 bg-black/40 border border-gray-600 rounded-xl p-3 focus:border-purple-500 outline-none text-white">
                     <button type="submit" class="bg-gray-700 hover:bg-gray-600 px-5 rounded-xl font-bold text-gray-200">➜</button>
                 </form>
-                <ul class="space-y-2">
-                    <li v-for="idea in ideas" :key="idea.id" class="bg-white/5 px-4 py-3 rounded-xl border border-white/5 text-gray-300 text-sm flex justify-between gap-4">
-                        <span>{{ (currentLang === 'en' && translations[idea.id]) ? translations[idea.id] : idea.text }}</span>
-                        <span v-if="currentLang === 'en' && translations[idea.id]" class="text-[10px] text-blue-400/70 border border-blue-400/20 px-1 rounded h-min whitespace-nowrap">Translated</span>
+                <ul class="space-y-3">
+                    <li v-for="idea in ideas" :key="idea.id" class="bg-white/5 p-4 rounded-xl border border-white/5 flex justify-between items-center gap-4 transition hover:bg-white/10">
+                        <div class="flex-1 min-w-0">
+                            <p class="text-gray-200 text-sm break-words">
+                                {{ (currentLang === 'en' && translations[idea.id]) ? translations[idea.id] : idea.text }}
+                            </p>
+                            <span v-if="currentLang === 'en' && translations[idea.id]" class="text-[10px] text-blue-400/70 border border-blue-400/20 px-1 rounded h-min whitespace-nowrap mt-1 inline-block">Translated</span>
+                        </div>
+                        
+                        <button @click="likeIdea(idea, $event)" class="like-btn flex flex-col items-center justify-center bg-black/40 hover:bg-black/60 w-12 h-12 rounded-xl border border-white/10 transition active:scale-95 group">
+                            <span class="text-xl group-hover:scale-110 transition">❤️</span>
+                            <span class="text-[10px] font-bold text-gray-400">{{ idea.likes || 0 }}</span>
+                        </button>
                     </li>
                 </ul>
             </section>
@@ -178,7 +192,8 @@
     <script type="module">
         import { createApp, ref, computed, onMounted, watch } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        // WICHTIG: updateDoc, doc, increment hinzugefügt
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, updateDoc, doc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
           apiKey: "AIzaSyD18cfrkWooD8gOCJ3Y9jo11On8C5aMgm8",
@@ -193,13 +208,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // --- DEINE PLAYLIST ID ---
-        // Dies ist eine "Party Hits" Playlist ID als Platzhalter:
         const spotifyPlaylistId = "1w9Ck7FsQygVra7NCXYiLS"; 
-        
-        // UM DEINE EIGENE ZU NUTZEN:
-        // 1. Kopiere deinen Playlist Link in Spotify (z.B. https://open.spotify.com/playlist/MEINE_ID?si=...)
-        // 2. Ersetze die ID oben mit "MEINE_ID"
 
         const messages = {
             de: {
@@ -303,12 +312,50 @@
                     loading.value = false;
                 };
 
-                const submitIdea = async () => { if(newIdeaText.value) { await addDoc(collection(db, "ideas"), { text: newIdeaText.value, createdAt: serverTimestamp() }); newIdeaText.value = ''; }};
+                // Ideen werden jetzt mit likes: 0 initialisiert
+                const submitIdea = async () => { 
+                    if(newIdeaText.value) { 
+                        await addDoc(collection(db, "ideas"), { 
+                            text: newIdeaText.value, 
+                            likes: 0, 
+                            createdAt: serverTimestamp() 
+                        }); 
+                        newIdeaText.value = ''; 
+                    }
+                };
+
                 const submitSong = async () => { if(newSong.value) { await addDoc(collection(db, "songs"), { text: newSong.value, createdAt: serverTimestamp() }); newSong.value = ''; }};
+
+                // NEUE LIKE FUNKTION MIT KONFETTI
+                const likeIdea = async (idea, event) => {
+                    // 1. Confetti zünden (Ursprung ist der geklickte Button)
+                    const rect = event.currentTarget.getBoundingClientRect();
+                    const x = (rect.left + rect.width / 2) / window.innerWidth;
+                    const y = (rect.top + rect.height / 2) / window.innerHeight;
+
+                    confetti({
+                        particleCount: 40,
+                        spread: 60,
+                        origin: { x, y },
+                        colors: ['#A855F7', '#EC4899', '#ffffff'], // Lila/Pink Party Theme
+                        disableForReducedMotion: true,
+                        zIndex: 100
+                    });
+
+                    // 2. Datenbank Update
+                    try {
+                        const ideaRef = doc(db, "ideas", idea.id);
+                        await updateDoc(ideaRef, {
+                            likes: increment(1)
+                        });
+                    } catch (e) {
+                        console.error("Like failed", e);
+                    }
+                };
 
                 return { 
                     guests, newGuest, submitRSVP, loading, totalGuests, 
-                    ideas, newIdeaText, submitIdea, 
+                    ideas, newIdeaText, submitIdea, likeIdea,
                     songs, newSong, submitSong,
                     currentLang, toggleLang, t, translations, spotifyPlaylistId
                 };
